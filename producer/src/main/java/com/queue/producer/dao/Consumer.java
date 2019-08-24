@@ -17,7 +17,7 @@ public class Consumer implements Runnable {
         try {
             while (true) {
                 consume(queue.take());
-                Thread.sleep(100);
+                Thread.sleep(10);
             }
         } catch (InterruptedException ex) {
             System.out.println(ex);
@@ -25,6 +25,6 @@ public class Consumer implements Runnable {
     }
 
     void consume(Object x) {
-        logger.info("Take %s %s", x, System.lineSeparator());
+        logger.info("Get " + x.toString()+ " - "+ System.lineSeparator());
     }
 }

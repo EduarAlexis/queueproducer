@@ -21,16 +21,16 @@ public class Producer implements Runnable {
         try {
             for (int i = 0; i < 10; i++) {
                 queue.put(produce());
-                Thread.sleep(100);
+                Thread.sleep(10);
             }
         } catch (InterruptedException ex) {
-            System.out.println(ex);
+            logger.info(ex.getMessage());
         }
     }
 
     private Book produce() {
         Book book = new Book(seq);
-        logger.info("Put %s %s", book, System.lineSeparator());
+        logger.info("Put "+ book.toString()+" - "+System.lineSeparator());
         return book;
     }
 }
