@@ -18,7 +18,10 @@ public class ExchangeController {
 
     @RequestMapping(value = "/simulatequeue", method = RequestMethod.POST)
     public ResponseEntity<String> publishMessage(@RequestBody Queue queue) throws InterruptedException {
-        queueService.operationQueue(queue);
-        return new ResponseEntity<String>("Publish message succesfull", HttpStatus.OK);
+        if (queueService.operationQueue(queue)) {
+            return new ResponseEntity<String>("Publish message succesfull", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>("El número concurrente debe ser mayor a 0 y el de hilos debe ser menor al número de mensajes", HttpStatus.OK);
+        }
     }
 }

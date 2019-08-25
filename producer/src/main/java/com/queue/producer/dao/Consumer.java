@@ -16,11 +16,17 @@ public class Consumer implements Runnable {
         this.messages = messages;
     }
 
+    /**
+     * Método que recupera y elimina los elementos qaue se encuentran en la cabeza de la cola.
+     *
+     * @param
+     * @return
+     */
     public void run() {
         try {
-            int i=0;
+            int i = 0;
             while (true) {
-                consume(queue.take(),messages.get(i));
+                consume(queue.take(), messages.get(i));
                 Thread.sleep(10);
                 i++;
             }
@@ -29,7 +35,14 @@ public class Consumer implements Runnable {
         }
     }
 
+    /**
+     * Método que muestra los mensajes consumidos.
+     * Se toma un tiempo de 10 milisegundos para simular la velocidad del internet.
+     *
+     * @param
+     * @return
+     */
     void consume(Object x, Object message) {
-        logger.info("Get " + x.toString()+ "- Message"+ message.toString());
+        logger.info("Get " + x.toString() + " - Message" + message.toString());
     }
 }

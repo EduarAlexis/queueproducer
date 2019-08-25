@@ -1,6 +1,5 @@
 package com.queue.producer.dao;
 
-import com.queue.producer.models.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +21,12 @@ public class Producer implements Runnable {
         this.messages = messages;
     }
 
+    /**
+     * Método que apila y muestra los mensajes.
+     * Se toma un tiempo de 10 milisegundos para simular la velocidad del internet.
+     * @param
+     * @return
+     */
     public void run() {
         try {
             for (int i = 0; i < stackSize; i++) {
@@ -33,9 +38,14 @@ public class Producer implements Runnable {
         }
     }
 
-    private Book producingMessages(Object message) {
-        Book book = new Book(seq);
-        logger.info("Put: "+ book.toString()+ " - message "+ message.toString());
-        return book;
+    /**
+     * Método que muestra los mensajes consumidos.
+     *
+     * @param @Object message
+     * @return
+     */
+    private String producingMessages(Object message) {
+        logger.info("Put - message "+ message.toString());
+        return message.toString();
     }
 }
