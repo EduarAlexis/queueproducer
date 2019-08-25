@@ -18,14 +18,7 @@ public class ExchangeController {
 
     @RequestMapping(value = "/simulatequeue", method = RequestMethod.POST)
     public ResponseEntity<String> publishMessage(@RequestBody Queue queue) throws InterruptedException {
-        boolean option = false;
-        option = queueService.operationQueue(queue);
-        queue.setQueueName("TestQueue");
-        option = queueService.operationQueue(queue);
-        if (option) {
-            return new ResponseEntity<>("Publish message succesfull", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Publish message succesfull", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        queueService.operationQueue(queue);
+        return new ResponseEntity<String>("Publish message succesfull", HttpStatus.OK);
     }
 }

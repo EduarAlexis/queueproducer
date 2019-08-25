@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Book {
     Integer id;
-    private static AtomicInteger seq;
+    private AtomicInteger seq;
 
     public Book(AtomicInteger seq) {
         this.seq = seq;

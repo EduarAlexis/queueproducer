@@ -1,17 +1,20 @@
 package com.queue.producer.models;
 
+import java.util.ArrayList;
+
 public class Queue {
+    private int concurrenceSize;
     private String routingKey;
     private String queueName;
-    private String message;
+    private ArrayList<Object> messages;
 
     public Queue() {
     }
 
-    public Queue(String routingKey, String queueName, String message) {
+    public Queue(String routingKey, String queueName, ArrayList<Object> messages) {
         this.routingKey = routingKey;
         this.queueName = queueName;
-        this.message = message;
+        this.messages = messages;
     }
 
     public String getRoutingKey() {
@@ -30,11 +33,19 @@ public class Queue {
         this.queueName = queueName;
     }
 
-    public String getMessage() {
-        return message;
+    public int getConcurrenceSize() {
+        return concurrenceSize;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setConcurrenceSize(int concurrenceSize) {
+        this.concurrenceSize = concurrenceSize;
+    }
+
+    public ArrayList<Object> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(ArrayList<Object> messages) {
+        this.messages = messages;
     }
 }
