@@ -26,8 +26,12 @@ public class Consumer implements Runnable {
         try {
             int i = 0;
             while (true) {
-                consume(queue.take(), messages.get(i));
-                Thread.sleep(10);
+                if (!messages.isEmpty()) {
+                    consume(queue.take(), messages.get(i));
+                    Thread.sleep(10);
+                } else {
+                    break;
+                }
                 i++;
             }
         } catch (InterruptedException ex) {

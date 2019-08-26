@@ -14,7 +14,6 @@ public class QueueService {
 
     private ArrayList<Integer> stackSizes;
     private boolean change = false;
-    private ArrayList<Thread> threads = new ArrayList<>();
     private ArrayList<Object> tempMessages = new ArrayList<>();
     private BlockingQueue q;
 
@@ -83,20 +82,15 @@ public class QueueService {
      */
     private void queueSimulate(Queue queue) throws InterruptedException {
         q = new ArrayBlockingQueue(stackSizes.get(0));
-        if(queue.getMessages().size()>1){
+        if (queue.getMessages().size() > 1) {
             if (change) {
                 pairConcurrence(queue);
             } else {
                 pairConcurrence(queue);
                 oddConcurrence(queue);
             }
-        }else{
+        } else {
             pairConcurrence(queue);
-        }
-
-        for (Thread t : threads) {
-            t.start();
-            t.join();
         }
     }
 
@@ -107,16 +101,25 @@ public class QueueService {
      * @param @Queue queue
      * @return
      */
-    private void pairConcurrence(Queue queue) {
+    private void pairConcurrence(Queue queue) throws InterruptedException {
         q = new ArrayBlockingQueue(stackSizes.get(0));
         for (int i = 0; i < queue.getConcurrenceSize(); i++) {
             for (int j = stackSizes.get(0) - 1; j >= 0; j--) {
-                tempMessages.add(queue.getMessages().get(j));
-                queue.getMessages().remove(j);
+                if (!queue.getMessages().isEmpty()) {
+                    tempMessages.add(queue.getMessages().get(j));
+                    queue.getMessages().remove(j);
+                } else {
+                    break;
+                }
             }
-            threads.add(new Thread(new Producer(stackSizes.get(0), q, tempMessages)));
-            threads.add(new Thread(new Consumer(q, tempMessages)));
+            Producer p = new Producer(stackSizes.get(0), q, tempMessages);
+            Consumer c = new Consumer(q, tempMessages);
+            Thread tp = new Thread(p);
+            Thread tc = new Thread(c);
+            tp.start();
+            tc.start();
             tempMessages = new ArrayList<>();
+
         }
     }
 
@@ -128,15 +131,23 @@ public class QueueService {
      * @param @Queue queue
      * @return
      */
-    private void oddConcurrence(Queue queue) {
+    private void oddConcurrence(Queue queue) throws InterruptedException {
         q = new ArrayBlockingQueue(stackSizes.get(1));
         for (int i = 0; i < stackSizes.get(1); i++) {
             for (int j = stackSizes.get(1) - 1; j >= 0; j--) {
-                tempMessages.add(queue.getMessages().get(j));
-                queue.getMessages().remove(j);
+                if (!queue.getMessages().isEmpty()) {
+                    tempMessages.add(queue.getMessages().get(j));
+                    queue.getMessages().remove(j);
+                } else {
+                    break;
+                }
             }
-            threads.add(new Thread(new Producer(stackSizes.get(1), q, tempMessages)));
-            threads.add(new Thread(new Consumer(q, tempMessages)));
+            Producer p = new Producer(stackSizes.get(1), q, tempMessages);
+            Consumer c = new Consumer(q, tempMessages);
+            Thread tp = new Thread(p);
+            Thread tc = new Thread(c);
+            tp.start();
+            tc.start();
             tempMessages = new ArrayList<>();
         }
     }

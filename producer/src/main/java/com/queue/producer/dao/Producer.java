@@ -24,14 +24,19 @@ public class Producer implements Runnable {
     /**
      * Método que apila y muestra los mensajes.
      * Se toma un tiempo de 10 milisegundos para simular la velocidad del internet.
+     *
      * @param
      * @return
      */
     public void run() {
         try {
             for (int i = 0; i < stackSize; i++) {
-                blockingQueue.put(producingMessages(messages.get(i)));
-                Thread.sleep(10);
+                if (!messages.isEmpty()) {
+                    blockingQueue.put(producingMessages(messages.get(i)));
+                    Thread.sleep(10);
+                } else {
+                    break;
+                }
             }
         } catch (InterruptedException ex) {
             logger.info(ex.getMessage());
@@ -45,7 +50,7 @@ public class Producer implements Runnable {
      * @return
      */
     private String producingMessages(Object message) {
-        logger.info("Put - message "+ message.toString());
+        logger.info("Put - message " + message.toString());
         return message.toString();
     }
 }
