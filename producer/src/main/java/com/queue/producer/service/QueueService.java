@@ -25,7 +25,7 @@ public class QueueService {
      * @param @Queue queue
      * @return
      */
-    public boolean operationQueue(Queue queue) throws InterruptedException {
+    public boolean operationQueue(Queue queue) {
         String queueName = queue.getQueueName();
         int messagesSize = (queue != null && queue.getMessages() != null) ? queue.getMessages().size() : 0;
         int concurrenceSize = (queue != null && queue.getConcurrenceSize() > 0) ? queue.getMessages().size() : 0;
@@ -80,7 +80,7 @@ public class QueueService {
      * @param @Queue queue
      * @return
      */
-    private void queueSimulate(Queue queue) throws InterruptedException {
+    private void queueSimulate(Queue queue) {
         q = new ArrayBlockingQueue(stackSizes.get(0));
         if (queue.getMessages().size() > 1) {
             if (change) {
@@ -101,7 +101,7 @@ public class QueueService {
      * @param @Queue queue
      * @return
      */
-    private void pairConcurrence(Queue queue) throws InterruptedException {
+    private void pairConcurrence(Queue queue) {
         q = new ArrayBlockingQueue(stackSizes.get(0));
         for (int i = 0; i < queue.getConcurrenceSize(); i++) {
             for (int j = stackSizes.get(0) - 1; j >= 0; j--) {
@@ -131,7 +131,7 @@ public class QueueService {
      * @param @Queue queue
      * @return
      */
-    private void oddConcurrence(Queue queue) throws InterruptedException {
+    private void oddConcurrence(Queue queue) {
         q = new ArrayBlockingQueue(stackSizes.get(1));
         for (int i = 0; i < stackSizes.get(1); i++) {
             for (int j = stackSizes.get(1) - 1; j >= 0; j--) {
